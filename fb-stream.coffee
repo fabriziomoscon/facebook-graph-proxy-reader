@@ -1,12 +1,12 @@
 http = require 'http'
 request = require 'request'
 
-ACCESS_TOKEN = 'CAACEdEose0cBAJHLG9GJYiToFogGFYEq7ZAUYzQzOfOpfCqEsXDxC79hB020OSrJtzVcu9SxVbwnB6Mm8kPmxmmY9nmeMZAZBQEVuReD1gisshVbuUyLdOWLdZBca8IpA8WY9XkmMqVwIpg9JS6S1PXDPXVlxdWkjgjcfn3ORZCEesdUGZCZCwJMHcEDSbihlgZD'
+ACCESS_TOKEN = 'CAACEdEose0cBACAQOJxvYrSzT4cXTJ887ZAM6Cq3kZCPZBOKyEJPNi3gQr1XOWNvXfKZCkDzzmGZA0Lu9UzWdtM3pA9sfsNcUKxwkZBMOM0FeTIGQ4q80pXAZCYcTaJNt1YR3daxPS6vEGP3IKZAKwSQZAxpvefBgmrhmhMF6rNNwB0tniTaZBZBhbg7z4y8K7NjAIZD'
 nodeId = "569230849833126"
 
 server = http.createServer (req, res) ->
 
-  request("https://graph.facebook.com/#{nodeId}/feed?access_token=#{ACCESS_TOKEN}&fields=message")
+  request("https://graph.facebook.com/#{nodeId}/feed?access_token=#{ACCESS_TOKEN}")
     .pipe(res)
 
 server.listen(8000)

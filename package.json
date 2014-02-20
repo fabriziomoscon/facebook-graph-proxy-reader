@@ -1,0 +1,25 @@
+{
+  "name": "facebook-graph-proxy-reader",
+  "preferGlobal": false,
+  "private": false,
+  "version": "0.0.1",
+  "description": "Reading content of a public facebook feed",
+  "contributors": [
+    "mosconfabrizio@gmail.com"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fabriziomoscon/facebook-graph-proxy-reader"
+  },
+  "scripts": {
+    "start": "coffee fb-stream.coffee"
+  },
+  "dependencies": {
+    "connect": "~2.12.0",
+    "fbgraph": "~0.2.9",
+    "request": "~2.34.0",
+    "coffee-script": "~1.7.0"
+  },
+  "devDependencies": {
+  }
+}

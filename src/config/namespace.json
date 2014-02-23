@@ -1,0 +1,22 @@
+[
+  {
+    "name": "youtube",
+    "prefix": "YOUTUBE_",
+    "opts": {}
+  },
+  {
+    "name": "facebook",
+    "prefix": "FACEBOOK_",
+    "opts": {}
+  },
+  {
+    "name": "server",
+    "prefix": "SERVER_",
+    "opts": {}
+  },
+  {
+    "name": "db",
+    "prefix": "DB_",
+    "opts": {}
+  }
+]

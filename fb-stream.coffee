@@ -1,12 +1,12 @@
 http = require 'http'
 request = require 'request'
 
-ACCESS_TOKEN = 'CAACEdEose0cBACAQOJxvYrSzT4cXTJ887ZAM6Cq3kZCPZBOKyEJPNi3gQr1XOWNvXfKZCkDzzmGZA0Lu9UzWdtM3pA9sfsNcUKxwkZBMOM0FeTIGQ4q80pXAZCYcTaJNt1YR3daxPS6vEGP3IKZAKwSQZAxpvefBgmrhmhMF6rNNwB0tniTaZBZBhbg7z4y8K7NjAIZD'
-nodeId = "569230849833126"
+config = require './src/config/environment'
 
 server = http.createServer (req, res) ->
 
-  request("https://graph.facebook.com/#{nodeId}/feed?access_token=#{ACCESS_TOKEN}")
+  request("https://graph.facebook.com/#{config.facebook.graphId}/feed?access_token=#{config.facebook.accessToken}")
     .pipe(res)
 
-server.listen(8000)
+server.listen config.server.listen.port, config.server.listen.host, () ->
+  console.log {server: server.address()}, 'listening'

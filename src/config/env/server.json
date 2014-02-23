@@ -1,0 +1,12 @@
+{
+  "auth": {
+    "saltLength": "int"
+  },
+  "listen": {
+    "port": "int",
+    "host": "string"
+  },
+  "session": {
+    "secret": "string"
+  }
+}

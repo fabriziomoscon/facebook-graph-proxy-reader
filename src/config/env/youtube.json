@@ -1,6 +1,7 @@
 {
  "client": {
-    "id": "string",
-    "secret": "string"
+    "email": "string",
+    "publickey": "string",
+    "privatekeypath": "string"
   }
 }

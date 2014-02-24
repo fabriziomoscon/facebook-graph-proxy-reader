@@ -9,7 +9,7 @@ jwtAuthClient = new JWT(
   config.youtube.client.email
   config.youtube.client.privatekeypath
   null
-  ['https://www.googleapis.com/auth/youtube']
+  ['https://www.googleapis.com/auth/youtube', 'https://www.googleapis.com/auth/youtubepartner']
 )
 
 jwtAuthClient.authorize (err, result) ->
@@ -26,15 +26,22 @@ jwtAuthClient.authorize (err, result) ->
       client
         # .youtube.videos.rate( {id: 'OQfjIw3mivc', rating: 'like' })
         # .youtube.channels.list({mine: true, part: 'contentDetails'})
-        .youtube.playlists.insert(
+        .youtube.playlistItems.insert(
+          { part: "snippet" },
           {
-            part: 'snippet'
-            snippet:{
-              title: 'Test Playlist'
-              channelTitle: 'Radio Corighedrè'
-            }
+            snippet:
+              playlistId: config.youtube.playlistId
+              resourceId:
+                kind: "youtube#video"
+                videoId: "Lg_85hMxBv8"
           }
         )
+        # .youtube.playlists.list(
+        #   {
+        #     "part": "snippet"
+        #     "channelId": config.youtube.channelId
+        #   }
+        # )
         .execute( (err, res) ->
           console.log err
           console.log res

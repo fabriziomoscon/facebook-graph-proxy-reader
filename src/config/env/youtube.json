@@ -3,5 +3,7 @@
     "email": "string",
     "publickey": "string",
     "privatekeypath": "string"
-  }
+  },
+  "channelId": "string",
+  "playlistId": "string"
 }

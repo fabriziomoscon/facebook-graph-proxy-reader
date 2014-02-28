@@ -15,3 +15,8 @@ npm install
 ```bash
 ./set-env test npm start
 ```
+
+# integration test
+```bash
+./set-env test coffee src/integration/youtube.coffee
+```

@@ -24,18 +24,27 @@ jwtAuthClient.authorize (err, result) ->
       console.log client
 
       client
-        # .youtube.videos.rate( {id: 'OQfjIw3mivc', rating: 'like' })
+        #not working
+        .youtube.videos.rate( {id: 'Lg_85hMxBv8', rating: 'like' })
         # .youtube.channels.list({mine: true, part: 'contentDetails'})
-        .youtube.playlistItems.insert(
-          { part: "snippet" },
-          {
-            snippet:
-              playlistId: config.youtube.playlistId
-              resourceId:
-                kind: "youtube#video"
-                videoId: "Lg_85hMxBv8"
-          }
-        )
+
+        #working
+        # .youtube.search.list(
+        #   q: 'BBC documentary',
+        #   part: 'snippet'
+        # )
+
+        #not working
+        # .youtube.playlistItems.insert(
+        #   { part: "snippet" },
+        #   {
+        #     snippet:
+        #       playlistId: config.youtube.playlistId
+        #       resourceId:
+        #         videoId: "Lg_85hMxBv8"
+        #         kind: "youtube#video"
+        #   }
+        # )
         # .youtube.playlists.list(
         #   {
         #     "part": "snippet"

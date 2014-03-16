@@ -1,8 +1,9 @@
 {
  "client": {
-    "email": "string",
-    "publickey": "string",
-    "privatekeypath": "string"
+    "id": "string",
+    "secret": "string",
+    "redirectURL": "string",
+    "refreshToken": "string"
   },
   "channelId": "string",
   "playlistId": "string"

@@ -4,65 +4,60 @@ config = require '../config/environment'
 
 googleapis = require 'googleapis'
 
-JWT = googleapis.auth.JWT
-
-jwtAuthClient = new JWT(
-  config.youtube.client.email
-  config.youtube.client.privatekeypath
-  null
-  ['https://www.googleapis.com/auth/youtube', 'https://www.googleapis.com/auth/youtube.upload', 'https://www.googleapis.com/auth/youtubepartner']
+oauth2client = new googleapis.auth.OAuth2(
+  config.youtube.client.id
+  config.youtube.client.secret
+  config.youtube.client.redirectURL
+  {
+    "access_type": "offline"
+    "approval_prompt": "force"
+    # "scope": ['https://www.googleapis.com/auth/youtube', 'https://www.googleapis.com/auth/youtube.upload']
+    "scope": 'https://www.googleapis.com/auth/youtube'
+    "grant_type": "refresh_token"
+  }
 )
 
-jwtAuthClient.authorize (err, result) ->
-  if err?
-    console.log "ERROR", err
-    process.exit 1
+oauth2client.credentials = { "refresh_token": config.youtube.client.refreshToken }
 
-  console.log "Authorize result", result
+googleapis
+  .discover('youtube', 'v3')
+  .withAuthClient(oauth2client)
+  .execute( (err, client) ->
+    if err?
+      console.log "ERROR", err
+      process.exit 1
+    
+    console.log "Youtube API client", client
 
-  googleapis
-    .discover('youtube', 'v3')
-    .withAuthClient(jwtAuthClient)
-    .execute( (err, client) ->
-      if err?
-        console.log "ERROR", err
-        process.exit 1
-      
-      console.log "Youtube API client", client
+    client
+      .withAuthClient(oauth2client)
+      # .youtube.videos.rate( {id: 'Lg_85hMxBv8', rating: 'unlike' })
+      # .youtube.channels.list({mine: true, part: 'contentDetails'})
+      # .youtube.search.list(
+      #   q: 'BBC documentary',
+      #   part: 'snippet'
+      # )
+      .youtube.playlistItems.insert(
+        { part: "snippet" },
+        {
+          snippet:
+            playlistId: config.youtube.playlistId
+            resourceId:
+              videoId: "Lg_85hMxBv8"
+              kind: "youtube#video"
+        }
+      )
+      # .youtube.playlists.list(
+      #   {
+      #     "part": "snippet"
+      #     "mine": true
+      #   }
+      # )
+      .execute( (err, res) ->
+        if err?
+          console.log "ERROR", err
+          process.exit 1
 
-      client
-        #not working
-        # .youtube.videos.rate( {id: 'Lg_85hMxBv8', rating: 'like' })
-        # .youtube.channels.list({mine: true, part: 'contentDetails'})
-
-        #working
-        # .youtube.search.list(
-        #   q: 'BBC documentary',
-        #   part: 'snippet'
-        # )
-
-        #not working
-        .youtube.playlistItems.insert(
-          { part: "snippet" },
-          {
-            snippet:
-              playlistId: config.youtube.playlistId
-              resourceId:
-                videoId: "Lg_85hMxBv8"
-                kind: "youtube#video"
-          }
-        )
-        # .youtube.playlists.list(
-        #   {
-        #     "part": "snippet"
-        #     "channelId": config.youtube.channelId
-        #   }
-        # )
-        .execute( (err, res) ->
-          if err?
-            console.log "ERROR", err
-            process.exit 1
-
-          console.log 'RESULT', res
-        )
-    )
+        console.log 'RESULT', res
+      )
+  )

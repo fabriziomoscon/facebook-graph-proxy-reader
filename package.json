@@ -22,5 +22,7 @@
     "request": "~2.34.0",
     "yapec": "0.0.2"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "readline": "*"
+  }
 }

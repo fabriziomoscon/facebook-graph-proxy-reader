@@ -30,7 +30,6 @@ googleapis
     console.log "Youtube API client", client
 
     client
-      .withAuthClient(oauth2client)
       # .youtube.videos.rate( {id: 'Lg_85hMxBv8', rating: 'unlike' })
       # .youtube.channels.list({mine: true, part: 'contentDetails'})
       # .youtube.search.list(

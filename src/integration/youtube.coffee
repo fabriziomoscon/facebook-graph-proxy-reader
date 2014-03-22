@@ -4,18 +4,7 @@ config = require '../config/environment'
 
 googleapis = require 'googleapis'
 
-oauth2client = new googleapis.auth.OAuth2(
-  config.youtube.client.id
-  config.youtube.client.secret
-  config.youtube.client.redirectURL
-  {
-    "access_type": "offline"
-    "approval_prompt": "force"
-    # "scope": ['https://www.googleapis.com/auth/youtube', 'https://www.googleapis.com/auth/youtube.upload']
-    "scope": 'https://www.googleapis.com/auth/youtube'
-    "grant_type": "refresh_token"
-  }
-)
+
 
 oauth2client.credentials = { "refresh_token": config.youtube.client.refreshToken }
 

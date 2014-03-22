@@ -1,52 +1,47 @@
 googleapis = require 'googleapis'
 
-JWT = googleapis.auth.JWT
-
-
 
 class Youtube
 
 
   constructor: (config) ->
-    @jwtAuthClient = new JWT(
-      config.youtube.client.email
-      config.youtube.client.privatekeypath
-      null
-      ['https://www.googleapis.com/auth/youtube']
+    @oauth2client = new googleapis.auth.OAuth2(
+      config.youtube.client.id
+      config.youtube.client.secret
+      config.youtube.client.redirectURL
+      {
+        "access_type": "offline"
+        "approval_prompt": "force"
+        "scope": 'https://www.googleapis.com/auth/youtube'
+        "grant_type": "refresh_token"
+      }
     )
 
-
-  addToFavorites: (playlistId, videoId, callback) ->
-
-    @jwtAuthClient.authorize (err, result) ->
-
-      googleapis
-        .discover('youtube', 'v3')
-        .withAuthClient(@jwtAuthClient)
-        .execute( (err, client) ->
-
-          client
-            #not working
-            .youtube.playlistItems.insert(
-              { part: "snippet" },
-              {
-                snippet:
-                  playlistId: config.youtube.playlistId
-                  resourceId:
-                    videoId: "Lg_85hMxBv8"
-                    kind: "youtube#video"
-              }
-            )
-            .youtube.playlists.list(
-              {
-                "part": "snippet"
-                "channelId": config.youtube.channelId
-              }
-            )
-            .execute( callback )
-        )
+    @oauth2client.credentials = { "refresh_token": config.youtube.client.refreshToken }
 
 
+  addToPlaylist: (playlistId, videoId, callback) ->
+
+    googleapis
+      .discover( 'youtube', 'v3' )
+      .withAuthClient( @oauth2client )
+      .execute( (err, client) ->
+        if err?
+          return callback err
+
+        client
+          .youtube.playlistItems.insert(
+            { part: "snippet" },
+            {
+              snippet:
+                playlistId: playlistId
+                resourceId:
+                  videoId: videoId
+                  kind: "youtube#video"
+            }
+          )
+          .execute( callback )
+      )
 
 
 module.exports = Youtube

@@ -39,11 +39,11 @@ class Facebook
           #TODO make this error nicer - e.g error parsing json
           return callback error
 
-        unless facebookData?.data?
-          return callback new Error 'Invalid response'
-
         if facebookData.error?.message?
           return callback new Error facebookData.error.message
+
+        unless facebookData?.data?
+          return callback new Error 'Invalid data in facebook response'
 
         return callback null, facebookData.data
 
